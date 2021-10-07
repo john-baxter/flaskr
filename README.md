@@ -7,7 +7,7 @@ We are using the bundled `venv` module to create the virtual environment for thi
 1. `cd venv`
 1. `python3 -m venv venv`
 
-From the main project repo (`flaskr/`):
+From the main project repo (`flask-tutorial/`):
 use the command
 ```
 . venv/bin/activate
