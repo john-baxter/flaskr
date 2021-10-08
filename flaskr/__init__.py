@@ -10,10 +10,6 @@ def create_app(test_config=None):
     DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
   )
 
-  from . import db
-  db.init_app(app)
-  return app
-
   if test_config is None:
     # load the instance congfig, if it exists, when not teating
     app.config.from_pyfile('config.py', silent=True)
@@ -26,6 +22,10 @@ def create_app(test_config=None):
     os.makedirs(app.instance_path)
   except OSError:
     pass
+
+  from . import db
+  db.init_app(app)
+  return app
 
   # a simple page that says hello
   @app.route('/hello')
