@@ -29,13 +29,17 @@ do deactivate the virtual environment
 
 ## Running the app
 
-run the following three commands in the terminal:
+run the following four commands in the terminal:
 ```
 export FLASK_APP=flaskr
 ```
 ```
 export FLASK_ENV=development
 ```
+```
+flask init-db
+```
+At this point the console should log "`Initialised the database`"
 ```
 flask run
 ```
