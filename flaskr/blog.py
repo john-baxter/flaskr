@@ -35,7 +35,7 @@ def create():
         db = get_db()
         db.execute(
           'INSERT INTO post (title, body, author_id)'
-          ' VALUES (?, ?, ?)'
+          ' VALUES (?, ?, ?)',
           (title, body, g.user['id'])
         )
         db.commit()
@@ -47,14 +47,14 @@ def get_post(id, check_author=True):
   post = get_db().execute(
     'SELECT p.id, title, body, created, author_id, username'
     ' FROM post p JOIN user u ON p.author_id = u.id'
-    ' WHERE p.id = ?'
+    ' WHERE p.id = ?',
     (id,)
   ).fetchone()
 
   if post is None:
     abort(404, f"Post id {id} doesn't exist.")
 
-  if check_authorand post['author_id'] != g.user['id']:
+  if check_author and post['author_id'] != g.user['id']:
     abort(403)
 
   return post
@@ -86,7 +86,7 @@ def update(id):
 
   return render_template('blog/update.html', post=post)
 
-@bp.route('<int:id>/delete', methods=('POST,'))
+@bp.route('<int:id>/delete', methods=('POST',))
 @login_required
 def delete(id):
   get_post(id)
