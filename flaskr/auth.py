@@ -29,10 +29,10 @@ def register():
           (username, generate_password_hash(password)),
         )
         db.commit()
-    except db.IntegrityError:
-      error = f"User {username} is already registered."
-    else:
-      return redirect(url_for("auth.login"))
+      except db.IntegrityError:
+        error = f"User {username} is already registered."
+      else:
+        return redirect(url_for("auth.login"))
 
     flash(error)
 
@@ -57,7 +57,7 @@ def login():
     if error is None:
       session.clear()
       session['user_id'] = user['id']
-    return redirect(url_for('index'))
+      return redirect(url_for('index'))
 
     flash(error)
 
@@ -72,19 +72,18 @@ def load_logged_in_user():
   else:
     g.user = get_db().execute(
       'SELECT * FROM user WHERE id = ?', (user_id,)
-  ).fetchone()
+    ).fetchone()
 
 @bp.route('/logout')
 def logout():
   session.clear()
   return redirect(url_for('index'))
 
-
 def login_required(view):
-@functools.wraps(view)
+  @functools.wraps(view)
   def wrapped_view(**kwargs):
-  if g.user is None:
-    return redirect(url_for('auth.login'))
+    if g.user is None:
+      return redirect(url_for('auth.login'))
 
     return view(**kwargs)
 
